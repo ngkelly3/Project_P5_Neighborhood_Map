@@ -3,6 +3,13 @@ html, body {
     margin: 0;
     padding: 0;
 }
-#map {
+.container-fluid, #map {
     height: 100%;
+    padding: 0px;
+    background-color: #000000;
+}
+
+#sidebar {
+	margin-top: 70px;
+
 }
