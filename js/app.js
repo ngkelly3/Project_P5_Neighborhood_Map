@@ -101,7 +101,6 @@ var ViewModel = function () {
         google.maps.event.trigger(this.marker(), 'click');
     };
 
-
     this.venueList = ko.observableArray();
     this.filter = ko.observable(''); // have to initiate a value
 
@@ -109,8 +108,7 @@ var ViewModel = function () {
         self.venueList.push( new Venue(venueItem) );
     });
 
-    // set up filter functionality, right now, filtereditems is binded to the view, so if this works properly then the list will update accordingly
-    // so the code below works!  now I get it.  The function actually parameter takes "venueList" as an argument, and venue represents each object within venueList.  I was just too stubborn to figure it out, I guess.  Maybe I was just too distracted.  Either way, it works now, so I'm happy - and most importantly, I understand WHY it works.
+    // set up filter functionality
     this.filteredItems = ko.computed(function() {
         var filter = self.filter().toLowerCase();
         if (!filter) {
@@ -130,9 +128,7 @@ var ViewModel = function () {
         }
     });
 
-    // FOURSQUARE DATA FROM OLD MODEL
     // grab data from API
-
     var contentString = '';
     var infowindow = new google.maps.InfoWindow({
         content: contentString
@@ -142,33 +138,28 @@ var ViewModel = function () {
 
         var fsqUrl = 'https://api.foursquare.com/v2/venues/explore?ll=49.128,-123.186&intent=match&query=' + venue.name() + '&oauth_token=XAWSNU4RT5PGM1MKUZWX3BD1Y1LQTQLFBX1JCVR55OKZN1QI&v=20160304'
 
-        // by definition this request is async, so the rest of the browser will load despite this not being done.  That's why you have to use the .done callback function, that's the only place where the data will be ready.
         $.getJSON(fsqUrl, function(data) {
-            // Now, I need to story the data in the appropriate key/value of the appropriate infowindow:
+            // Pass data to objects:
             venue.hours = data.response.groups[0].items[0].venue.hours.status;
             venue.url = data.response.groups[0].items[0].venue.url;
             venue.hereNow = data.response.groups[0].items[0].venue.hereNow.summary;
             venue.address = data.response.groups[0].items[0].venue.location.formattedAddress;
             venue.contact = data.response.groups[0].items[0].venue.contact;
 
-            // afterwards, we assign infowindow to each venue with its own specific content.
+            // Assign infowindow content
             venue.marker().addListener('click', function() {
-                // okay, this works.  So we declare infowindow outside the loop, that way only one infowindow object is created on the map itself at any given time.
                 contentString = '<div id="content">' + '<h2 id="firstHeading" class="firstHeading">' + '<a href=' + venue.url + '>' + venue.name() + '</a>' + '</h2>' + '<h4>' + venue.hours + '</h4>' + '<div id="bodyContent">' + '<p>' + venue.hereNow + '</p>' + '<p>' + venue.address[0] + '</p>' + '<p>' + venue.address[1] + '</p>'+ '<p>' + venue.contact.phone + '</p>' + '<p>' + 'Data powered by FourSquare' + '</p>' + '</div>' + '</div>';
                 infowindow.setContent(contentString);
                 infowindow.open(map, venue.marker());
             });
 
-        // remove .done function when you are complete here
+        // error handling
         }).fail(function(e) {
             alert('Foursquare data cannot be loaded!');
         });
-
     })
 
-
     console.log(this.venueList());
-
 }
 
 
