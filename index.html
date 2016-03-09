@@ -42,7 +42,7 @@
 
             <ul class="nav" id="sidebar-nav" data-bind="foreach: filteredItems">
               <li>
-                <a href="#" data-bind="text: name"></a>
+                <a href="#" data-bind="text: name, click: $root.itemClick"></a>
               </li>
             </ul>
 
