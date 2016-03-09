@@ -1,5 +1,3 @@
-var numLocations = 9;
-
 // Set initial map data
 var initLocations = [
     {
@@ -35,16 +33,12 @@ var initLocation = {
     zoom: 15
 }
 
-
-
 function initMap() {
     //write script to insert API key into HTML code
     map = new google.maps.Map(document.getElementById('map'), {
         center: initLocation.center,
         zoom: initLocation.zoom
     });
-
-
 
     // initialize markers with animations
     for (i=0; i<initLocations.length; i++) {
@@ -64,7 +58,6 @@ function initMap() {
             setTimeout(function(){ self.setAnimation(null); }, 750);
           }
         });
-
         initLocations[i].marker = marker;
     };
     ko.applyBindings(new ViewModel());
@@ -78,44 +71,19 @@ var Venue = function(data) {
     this.lat = ko.observable(data.lat);
     this.lng = ko.observable(data.lng);
     this.marker = ko.observable(data.marker);
-    this.info = ko.observable();
 
 }
-
-/*function removeMarkers(){
-    for(i=0; i<gmarkers.length; i++){
-        gmarkers[i].setMap(null);
-    }
-}*/
-
-/*function setMarkers(data) {
-
-    for (i=0; i<data.length; i++) {
-        marker = new google.maps.Marker({
-            position: {lat: data[i].lat, lng: data[i].lng},
-            map: map,
-            title: data[i].name
-        });
-        initLocations[i].marker = marker;
-        console.log(initLocations[i].marker);
-        // gmarkers.push(marker);
-    };
-
-};*/
 
 function showMarkers(data) {
     for (i=0; i<data.length; i++) {
         data[i].marker().setVisible(true);
     }
-
 }
-
 
 function removeMarkers(data) {
     for (i=0; i<data.length; i++) {
         data[i].marker().setVisible(false);
     }
-
 }
 
 var stringStartsWith = function (string, startsWith) {
@@ -141,8 +109,6 @@ var ViewModel = function () {
         self.venueList.push( new Venue(venueItem) );
     });
 
-
-
     // set up filter functionality, right now, filtereditems is binded to the view, so if this works properly then the list will update accordingly
     // so the code below works!  now I get it.  The function actually parameter takes "venueList" as an argument, and venue represents each object within venueList.  I was just too stubborn to figure it out, I guess.  Maybe I was just too distracted.  Either way, it works now, so I'm happy - and most importantly, I understand WHY it works.
     this.filteredItems = ko.computed(function() {
@@ -167,9 +133,10 @@ var ViewModel = function () {
     // FOURSQUARE DATA FROM OLD MODEL
     // grab data from API
 
+    var contentString = '';
     var fsqElements = [];
     var infowindow = new google.maps.InfoWindow({
-        content: ''
+        content: contentString
     });
 
     this.venueList().forEach(function(venue) {
@@ -182,35 +149,23 @@ var ViewModel = function () {
             fsqElements.push(data.response.groups[0].items[0]);
 
             // Now, I need to story the data in the appropriate key/value of the appropriate infowindow:
-
-
-            // okay, this works.  So we declare infowindow outside the loop, that way only one infowindow object is created on the map itself at any given time.
+            venue.hours = data.response.groups[0].items[0].venue.hours.status;
+            venue.url = data.response.groups[0].items[0].venue.url;
+            venue.hereNow = data.response.groups[0].items[0].venue.hereNow.summary;
+            venue.address = data.response.groups[0].items[0].venue.location.formattedAddress;
+            venue.contact = data.response.groups[0].items[0].venue.contact;
 
             // afterwards, we assign infowindow to each venue with its own specific content.
             venue.marker().addListener('click', function() {
-                infowindow.setContent(data.response.groups[0].items[0].venue.name);
+                // okay, this works.  So we declare infowindow outside the loop, that way only one infowindow object is created on the map itself at any given time.
+                contentString = '<div id="content">' + '<h2 id="firstHeading" class="firstHeading">' + '<a href=' + venue.url + '>' + venue.name() + '</a>' + '</h2>' + '<h4>' + venue.hours + '</h4>' + '<div id="bodyContent">' + '<p>' + venue.hereNow + '</p>' + '<p>' + venue.address[0] + '</p>' + '<p>' + venue.address[1] + '</p>'+ '<p>' + venue.contact.phone + '</p>' + '</div>' + '</div>';
+                infowindow.setContent(contentString);
                 infowindow.open(map, venue.marker());
-
             });
 
-
-
+        // remove .done function when you are complete here
         }).done(function() {
-
             console.log(fsqElements);
-
-            /*// parses the data into objects to be used by the the view
-            fsqElements.forEach(function(venueItem){
-                self.venueList.push( new Venue(venueItem) );
-            });
-
-            // set map markers (search radius is too large) - although it needs to be an observable item if I want it to update with the view... shit
-            setMarkers(self.venueList());
-
-            // for reference
-            //self.venueList()[0].marker().setVisible(false);
-            //console.log(self.venueList()[0].marker());*/
-
         }).fail(function(e) {
             $fsqHeaderElem.text('Foursquare cannot be loaded');
         });
@@ -218,6 +173,7 @@ var ViewModel = function () {
     })
 
 
+    console.log(this.venueList());
 
 }
 
