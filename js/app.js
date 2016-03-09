@@ -134,7 +134,6 @@ var ViewModel = function () {
     // grab data from API
 
     var contentString = '';
-    var fsqElements = [];
     var infowindow = new google.maps.InfoWindow({
         content: contentString
     });
@@ -145,9 +144,6 @@ var ViewModel = function () {
 
         // by definition this request is async, so the rest of the browser will load despite this not being done.  That's why you have to use the .done callback function, that's the only place where the data will be ready.
         $.getJSON(fsqUrl, function(data) {
-            // The following code grabs FSQ data into objects, but the data is not yet organized.  Grab the first search element for each location.
-            fsqElements.push(data.response.groups[0].items[0]);
-
             // Now, I need to story the data in the appropriate key/value of the appropriate infowindow:
             venue.hours = data.response.groups[0].items[0].venue.hours.status;
             venue.url = data.response.groups[0].items[0].venue.url;
@@ -158,16 +154,14 @@ var ViewModel = function () {
             // afterwards, we assign infowindow to each venue with its own specific content.
             venue.marker().addListener('click', function() {
                 // okay, this works.  So we declare infowindow outside the loop, that way only one infowindow object is created on the map itself at any given time.
-                contentString = '<div id="content">' + '<h2 id="firstHeading" class="firstHeading">' + '<a href=' + venue.url + '>' + venue.name() + '</a>' + '</h2>' + '<h4>' + venue.hours + '</h4>' + '<div id="bodyContent">' + '<p>' + venue.hereNow + '</p>' + '<p>' + venue.address[0] + '</p>' + '<p>' + venue.address[1] + '</p>'+ '<p>' + venue.contact.phone + '</p>' + '</div>' + '</div>';
+                contentString = '<div id="content">' + '<h2 id="firstHeading" class="firstHeading">' + '<a href=' + venue.url + '>' + venue.name() + '</a>' + '</h2>' + '<h4>' + venue.hours + '</h4>' + '<div id="bodyContent">' + '<p>' + venue.hereNow + '</p>' + '<p>' + venue.address[0] + '</p>' + '<p>' + venue.address[1] + '</p>'+ '<p>' + venue.contact.phone + '</p>' + '<p>' + 'Data powered by FourSquare' + '</p>' + '</div>' + '</div>';
                 infowindow.setContent(contentString);
                 infowindow.open(map, venue.marker());
             });
 
         // remove .done function when you are complete here
-        }).done(function() {
-            console.log(fsqElements);
         }).fail(function(e) {
-            $fsqHeaderElem.text('Foursquare cannot be loaded');
+            alert('Foursquare data cannot be loaded!');
         });
 
     })
