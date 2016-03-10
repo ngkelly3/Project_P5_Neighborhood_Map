@@ -13,9 +13,9 @@ var initLocations = [{
     lat: 49.125256,
     lng: -123.181389
 }, {
-    name: 'Blenz Coffee',
-    lat: 49.124258,
-    lng: -123.182101
+    name: 'Adorabelle',
+    lat: 49.126059,
+    lng: -123.186035
 }, {
     name: 'Steveston Coffee Co.',
     lat: 49.125439,
