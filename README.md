@@ -11,8 +11,15 @@ Open index.html with your preferred browser in the dist folder.
 
 ### Reviewing Code
 All source code is located in the SRC folder.
+app.js contains Model / ViewModel code
+index.html contains View code
 
-## Grunt Modules
+## Grunt
+
+### Grunt modules used
 grunt-contrib-cssmin
 grunt-contrib-uglify
 grunt-contrib-htmlmin
+
+### Running Grunt
+Use the "grunt" command to run the task modules.

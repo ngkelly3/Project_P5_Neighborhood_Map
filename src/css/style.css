@@ -21,3 +21,7 @@ html, body {
 .input-group {
 	min-width: 100%;
 }
+
+#map {
+    margin-top: 50px;
+}
