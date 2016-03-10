@@ -4,7 +4,7 @@ This is a neighbourhood map of coffee shops located in Steveston Village, which 
 ## Quickstart
 
 ### Installation
-Clone the GitHub repository and use Grunt to install dependencies and Bower to install Knockout.
+Clone the GitHub repository.
 
 ### Running the App
 Open index.html with your preferred browser in the dist folder.
@@ -12,7 +12,7 @@ Open index.html with your preferred browser in the dist folder.
 ### Reviewing Code
 All source code is located in the SRC folder.
 
-## Dependencies
-
-
-## Licensing Information
+## Grunt Modules
+grunt-contrib-cssmin
+grunt-contrib-uglify
+grunt-contrib-htmlmin
