@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html>
-
   <head>
     <title>Steveston Village Coffee Map</title>
     <meta name="viewport" content="initial-scale=1.0">
     <meta charset="utf-8">
     <link href="css/style.css" type="text/css" rel="stylesheet" />
     <link href="css/bootstrap.min.css" type="text/css" rel="stylesheet" />
-
   </head>
 
   <body>
@@ -27,16 +25,14 @@
         </div>
       </header>
     </div>
-
     <div class="container-fluid" id="maincanvas">
-      <div class="col-xs-4" id="sidebar">
+      <div class="col-xs-4 col-md-2" id="sidebar">
         <ul class="nav" data-bind="foreach: filteredItems">
           <li><a href="#" data-bind="text: name, click: $root.itemClick"></a></li>
         </ul>
       </div>
       <div id="map"></div>
     </div>
-
   </body>
 
   <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCeePEusjA7KEVeq07QGtoPAw3hajnQ5lg&callback=initMap"></script>
@@ -44,6 +40,4 @@
   <script type='text/javascript' src='js/libs/bootstrap.min.js'></script>
   <script type='text/javascript' src='js/libs/knockout.js'></script>
   <script type='text/javascript' src="js/app.js"></script>
-
-
 </html>
