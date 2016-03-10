@@ -1,0 +1,24 @@
+{
+  "name": "neighbourhood_map",
+  "version": "1.0.0",
+  "description": "Udacity Project P5",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ngkelly3/Project_P5_Neighborhood_Map.git"
+  },
+  "author": "Kelly Ng",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ngkelly3/Project_P5_Neighborhood_Map/issues"
+  },
+  "homepage": "https://github.com/ngkelly3/Project_P5_Neighborhood_Map#readme",
+  "devDependencies": {
+    "grunt-contrib-cssmin": "^1.0.0",
+    "grunt-contrib-htmlmin": "^1.0.0",
+    "grunt-contrib-uglify": "^1.0.0"
+  }
+}
