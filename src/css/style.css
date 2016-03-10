@@ -18,7 +18,7 @@ html, body {
 	margin-top: 70px;
 }
 
-.input-group {
+.input-group, .navbar-header {
 	min-width: 100%;
 }
 
