@@ -35,6 +35,13 @@ module.exports = function(grunt) {
                 'dist/css/style.css': 'src/css/style.css'
                 }
             }
+        },
+
+        'gh-pages': {
+            options: {
+            base: 'dist'
+        },
+            src: ['**']
         }
     });
 
@@ -43,4 +50,5 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-contrib-uglify');
     grunt.loadNpmTasks('grunt-contrib-htmlmin');
     grunt.registerTask('default', ['htmlmin', 'uglify', 'cssmin']);
+    grunt.loadNpmTasks('grunt-gh-pages');
 };
